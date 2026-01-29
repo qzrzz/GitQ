@@ -1,0 +1,42 @@
+{
+  "name": "@qzrzz/gitq",
+  "version": "1.4.0",
+  "description": "🔧 Git 用户切换命令行工具 - 快速切换 Git 用户配置",
+  "bin": {
+    "gitq": "bin/gitq.js"
+  },
+  "scripts": {
+    "build": "go build -o dist/gitq .",
+    "build:all": "node scripts/build.js",
+    "publish:all": "node scripts/publish.js",
+    "prepublishOnly": "echo '请使用 npm run publish:all 发布所有包'"
+  },
+  "files": [
+    "bin/gitq.js"
+  ],
+  "optionalDependencies": {
+    "gitq-darwin-x64": "latest",
+    "gitq-darwin-arm64": "latest",
+    "gitq-linux-x64": "latest",
+    "gitq-linux-arm64": "latest",
+    "gitq-win32-x64": "latest",
+    "gitq-win32-arm64": "latest"
+  },
+  "keywords": [
+    "git",
+    "cli",
+    "user",
+    "switch",
+    "config"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qzrzz/GitQ"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "packageManager": "pnpm@10.14.0"
+}
