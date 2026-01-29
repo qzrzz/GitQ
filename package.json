@@ -1,6 +1,6 @@
 {
   "name": "@qzrzz/gitq",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "🔧 Git 用户切换命令行工具 - 快速切换 Git 用户配置",
   "bin": {
     "gitq": "bin/gitq.js"

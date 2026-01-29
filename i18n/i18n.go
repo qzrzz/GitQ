@@ -61,6 +61,7 @@ type Texts struct {
 	MenuTitle       string
 	MenuSwitchUser  string
 	MenuManageUser  string
+	MenuSetRemote   string
 	MenuChangeLang  string
 	MenuRefresh     string
 	MenuExit        string
@@ -76,43 +77,48 @@ type Texts struct {
 	GitNA     string
 
 	// 错误消息
-	ErrNotGitRepo   string
-	ErrRunInGitRepo string
-	ErrLoadUsers    string
-	ErrSwitchFailed string
-	ErrAddFailed    string
-	ErrUpdateFailed string
-	ErrDeleteFailed string
+	ErrNotGitRepo      string
+	ErrRunInGitRepo    string
+	ErrLoadUsers       string
+	ErrSwitchFailed    string
+	ErrAddFailed       string
+	ErrUpdateFailed    string
+	ErrDeleteFailed    string
+	ErrSetRemoteFailed string
 
 	// 用户管理
-	UserNoPreset      string
-	UserAddNow        string
-	UserSelectSwitch  string
-	UserManage        string
-	UserAdd           string
-	UserEdit          string
-	UserDelete        string
-	UserSelectEdit    string
-	UserSelectDelete  string
-	UserNoEdit        string
-	UserNoDelete      string
-	UserConfirmDelete string
-	UserName          string
-	UserEmail         string
-	UserSigningKey    string
-	UserGithubName    string
-	UserNameEmpty     string
-	UserEmailEmpty    string
-	UserNameExample   string
-	UserEmailExample  string
-	UserSigningKeyEx  string
-	UserGithubNameEx  string
+	UserNoPreset         string
+	UserAddNow           string
+	UserSelectSwitch     string
+	UserManage           string
+	UserAdd              string
+	UserEdit             string
+	UserDelete           string
+	UserSelectEdit       string
+	UserSelectDelete     string
+	UserNoEdit           string
+	UserNoDelete         string
+	UserConfirmDelete    string
+	UserName             string
+	UserEmail            string
+	UserSigningKey       string
+	UserGithubName       string
+	UserNameEmpty        string
+	UserEmailEmpty       string
+	UserNameExample      string
+	UserEmailExample     string
+	UserSigningKeyEx     string
+	UserGithubNameEx     string
+	SetRemoteTitle       string
+	SetRemotePlaceholder string
+	ErrRemoteEmpty       string
 
 	// 成功消息
-	SuccessSwitched string
-	SuccessAdded    string
-	SuccessUpdated  string
-	SuccessDeleted  string
+	SuccessSwitched  string
+	SuccessAdded     string
+	SuccessUpdated   string
+	SuccessDeleted   string
+	SuccessSetRemote string
 }
 
 // 中文翻译
@@ -131,6 +137,7 @@ var zhTexts = Texts{
 	MenuTitle:       "请选择操作 (ESC 退出)",
 	MenuSwitchUser:  "🔄 切换 Git 用户",
 	MenuManageUser:  "⚙️  管理预设用户",
+	MenuSetRemote:   "🔗 设置远程地址",
 	MenuChangeLang:  "🌐 切换语言",
 	MenuRefresh:     "🔃 刷新信息",
 	MenuExit:        "🚪 退出",
@@ -144,41 +151,46 @@ var zhTexts = Texts{
 	GitNotSet: "未设置",
 	GitNA:     "N/A",
 
-	ErrNotGitRepo:   "当前目录不是 Git 仓库",
-	ErrRunInGitRepo: "请在 Git 仓库目录中运行此工具",
-	ErrLoadUsers:    "加载用户列表失败",
-	ErrSwitchFailed: "切换用户失败",
-	ErrAddFailed:    "添加用户失败",
-	ErrUpdateFailed: "更新用户失败",
-	ErrDeleteFailed: "删除用户失败",
+	ErrNotGitRepo:      "当前目录不是 Git 仓库",
+	ErrRunInGitRepo:    "请在 Git 仓库目录中运行此工具",
+	ErrLoadUsers:       "加载用户列表失败",
+	ErrSwitchFailed:    "切换用户失败",
+	ErrAddFailed:       "添加用户失败",
+	ErrUpdateFailed:    "更新用户失败",
+	ErrDeleteFailed:    "删除用户失败",
+	ErrSetRemoteFailed: "设置远程地址失败",
 
-	UserNoPreset:      "没有预设用户",
-	UserAddNow:        "是否立即添加预设用户？",
-	UserSelectSwitch:  "选择要切换的用户",
-	UserManage:        "用户管理",
-	UserAdd:           "➕ 添加用户",
-	UserEdit:          "✏️  编辑用户",
-	UserDelete:        "🗑️  删除用户",
-	UserSelectEdit:    "选择要编辑的用户",
-	UserSelectDelete:  "选择要删除的用户",
-	UserNoEdit:        "没有可编辑的用户",
-	UserNoDelete:      "没有可删除的用户",
-	UserConfirmDelete: "确定删除用户 %s <%s>？",
-	UserName:          "用户名",
-	UserEmail:         "邮箱",
-	UserSigningKey:    "签名密钥 (可选)",
-	UserGithubName:    "GitHub 用户名 (可选)",
-	UserNameEmpty:     "用户名不能为空",
-	UserEmailEmpty:    "邮箱不能为空",
-	UserNameExample:   "例如: John Doe",
-	UserEmailExample:  "例如: john@example.com",
-	UserSigningKeyEx:  "GPG 密钥 ID (可留空)",
-	UserGithubNameEx:  "用于 SSH 密钥切换 (可留空)",
+	UserNoPreset:         "没有预设用户",
+	UserAddNow:           "是否立即添加预设用户？",
+	UserSelectSwitch:     "选择要切换的用户",
+	UserManage:           "用户管理",
+	UserAdd:              "➕ 添加用户",
+	UserEdit:             "✏️  编辑用户",
+	UserDelete:           "🗑️  删除用户",
+	UserSelectEdit:       "选择要编辑的用户",
+	UserSelectDelete:     "选择要删除的用户",
+	UserNoEdit:           "没有可编辑的用户",
+	UserNoDelete:         "没有可删除的用户",
+	UserConfirmDelete:    "确定删除用户 %s <%s>？",
+	UserName:             "用户名",
+	UserEmail:            "邮箱",
+	UserSigningKey:       "签名密钥 (可选)",
+	UserGithubName:       "GitHub 用户名 (可选)",
+	UserNameEmpty:        "用户名不能为空",
+	UserEmailEmpty:       "邮箱不能为空",
+	UserNameExample:      "例如: John Doe",
+	UserEmailExample:     "例如: john@example.com",
+	UserSigningKeyEx:     "GPG 密钥 ID (可留空)",
+	UserGithubNameEx:     "用于 SSH 密钥切换 (可留空)",
+	SetRemoteTitle:       "设置远程仓库地址 (origin)",
+	SetRemotePlaceholder: "例如: git@github.com:user/repo.git",
+	ErrRemoteEmpty:       "远程地址不能为空",
 
-	SuccessSwitched: "已切换到用户: %s <%s>",
-	SuccessAdded:    "已添加用户: %s <%s>",
-	SuccessUpdated:  "已更新用户: %s <%s>",
-	SuccessDeleted:  "已删除用户",
+	SuccessSwitched:  "已切换到用户: %s <%s>",
+	SuccessAdded:     "已添加用户: %s <%s>",
+	SuccessUpdated:   "已更新用户: %s <%s>",
+	SuccessDeleted:   "已删除用户",
+	SuccessSetRemote: "已设置远程地址: %s",
 }
 
 // 英文翻译
@@ -197,6 +209,7 @@ var enTexts = Texts{
 	MenuTitle:       "Select action (ESC to quit)",
 	MenuSwitchUser:  "🔄 Switch Git User",
 	MenuManageUser:  "⚙️  Manage Users",
+	MenuSetRemote:   "🔗 Set Remote URL",
 	MenuChangeLang:  "🌐 Change Language",
 	MenuRefresh:     "🔃 Refresh",
 	MenuExit:        "🚪 Exit",
@@ -210,41 +223,46 @@ var enTexts = Texts{
 	GitNotSet: "Not set",
 	GitNA:     "N/A",
 
-	ErrNotGitRepo:   "Current directory is not a Git repository",
-	ErrRunInGitRepo: "Please run this tool in a Git repository",
-	ErrLoadUsers:    "Failed to load users",
-	ErrSwitchFailed: "Failed to switch user",
-	ErrAddFailed:    "Failed to add user",
-	ErrUpdateFailed: "Failed to update user",
-	ErrDeleteFailed: "Failed to delete user",
+	ErrNotGitRepo:      "Current directory is not a Git repository",
+	ErrRunInGitRepo:    "Please run this tool in a Git repository",
+	ErrLoadUsers:       "Failed to load users",
+	ErrSwitchFailed:    "Failed to switch user",
+	ErrAddFailed:       "Failed to add user",
+	ErrUpdateFailed:    "Failed to update user",
+	ErrDeleteFailed:    "Failed to delete user",
+	ErrSetRemoteFailed: "Failed to set remote URL",
 
-	UserNoPreset:      "No preset users",
-	UserAddNow:        "Add a user now?",
-	UserSelectSwitch:  "Select user to switch",
-	UserManage:        "User Management",
-	UserAdd:           "➕ Add User",
-	UserEdit:          "✏️  Edit User",
-	UserDelete:        "🗑️  Delete User",
-	UserSelectEdit:    "Select user to edit",
-	UserSelectDelete:  "Select user to delete",
-	UserNoEdit:        "No users to edit",
-	UserNoDelete:      "No users to delete",
-	UserConfirmDelete: "Delete user %s <%s>?",
-	UserName:          "Name",
-	UserEmail:         "Email",
-	UserSigningKey:    "Signing Key (optional)",
-	UserGithubName:    "GitHub Username (optional)",
-	UserNameEmpty:     "Name cannot be empty",
-	UserEmailEmpty:    "Email cannot be empty",
-	UserNameExample:   "e.g. John Doe",
-	UserEmailExample:  "e.g. john@example.com",
-	UserSigningKeyEx:  "GPG key ID (optional)",
-	UserGithubNameEx:  "For SSH key switching (optional)",
+	UserNoPreset:         "No preset users",
+	UserAddNow:           "Add a user now?",
+	UserSelectSwitch:     "Select user to switch",
+	UserManage:           "User Management",
+	UserAdd:              "➕ Add User",
+	UserEdit:             "✏️  Edit User",
+	UserDelete:           "🗑️  Delete User",
+	UserSelectEdit:       "Select user to edit",
+	UserSelectDelete:     "Select user to delete",
+	UserNoEdit:           "No users to edit",
+	UserNoDelete:         "No users to delete",
+	UserConfirmDelete:    "Delete user %s <%s>?",
+	UserName:             "Name",
+	UserEmail:            "Email",
+	UserSigningKey:       "Signing Key (optional)",
+	UserGithubName:       "GitHub Username (optional)",
+	UserNameEmpty:        "Name cannot be empty",
+	UserEmailEmpty:       "Email cannot be empty",
+	UserNameExample:      "e.g. John Doe",
+	UserEmailExample:     "e.g. john@example.com",
+	UserSigningKeyEx:     "GPG key ID (optional)",
+	UserGithubNameEx:     "For SSH key switching (optional)",
+	SetRemoteTitle:       "Set Remote URL (origin)",
+	SetRemotePlaceholder: "e.g. git@github.com:user/repo.git",
+	ErrRemoteEmpty:       "Remote URL cannot be empty",
 
-	SuccessSwitched: "Switched to: %s <%s>",
-	SuccessAdded:    "Added user: %s <%s>",
-	SuccessUpdated:  "Updated user: %s <%s>",
-	SuccessDeleted:  "User deleted",
+	SuccessSwitched:  "Switched to: %s <%s>",
+	SuccessAdded:     "Added user: %s <%s>",
+	SuccessUpdated:   "Updated user: %s <%s>",
+	SuccessDeleted:   "User deleted",
+	SuccessSetRemote: "Remote URL set: %s",
 }
 
 // 日文翻译
@@ -263,6 +281,7 @@ var jaTexts = Texts{
 	MenuTitle:       "操作を選択 (ESC で終了)",
 	MenuSwitchUser:  "🔄 Git ユーザーを切替",
 	MenuManageUser:  "⚙️  ユーザー管理",
+	MenuSetRemote:   "🔗 リモート設定",
 	MenuChangeLang:  "🌐 言語切替",
 	MenuRefresh:     "🔃 更新",
 	MenuExit:        "🚪 終了",
@@ -276,41 +295,46 @@ var jaTexts = Texts{
 	GitNotSet: "未設定",
 	GitNA:     "N/A",
 
-	ErrNotGitRepo:   "現在のディレクトリは Git リポジトリではありません",
-	ErrRunInGitRepo: "Git リポジトリで実行してください",
-	ErrLoadUsers:    "ユーザーリストの読み込みに失敗しました",
-	ErrSwitchFailed: "ユーザーの切替に失敗しました",
-	ErrAddFailed:    "ユーザーの追加に失敗しました",
-	ErrUpdateFailed: "ユーザーの更新に失敗しました",
-	ErrDeleteFailed: "ユーザーの削除に失敗しました",
+	ErrNotGitRepo:      "現在のディレクトリは Git リポジトリではありません",
+	ErrRunInGitRepo:    "Git リポジトリで実行してください",
+	ErrLoadUsers:       "ユーザーリストの読み込みに失敗しました",
+	ErrSwitchFailed:    "ユーザーの切替に失敗しました",
+	ErrAddFailed:       "ユーザーの追加に失敗しました",
+	ErrUpdateFailed:    "ユーザーの更新に失敗しました",
+	ErrDeleteFailed:    "ユーザーの削除に失敗しました",
+	ErrSetRemoteFailed: "リモートの設定に失敗しました",
 
-	UserNoPreset:      "プリセットユーザーがありません",
-	UserAddNow:        "今すぐユーザーを追加しますか？",
-	UserSelectSwitch:  "切り替えるユーザーを選択",
-	UserManage:        "ユーザー管理",
-	UserAdd:           "➕ ユーザー追加",
-	UserEdit:          "✏️  ユーザー編集",
-	UserDelete:        "🗑️  ユーザー削除",
-	UserSelectEdit:    "編集するユーザーを選択",
-	UserSelectDelete:  "削除するユーザーを選択",
-	UserNoEdit:        "編集できるユーザーがありません",
-	UserNoDelete:      "削除できるユーザーがありません",
-	UserConfirmDelete: "ユーザー %s <%s> を削除しますか？",
-	UserName:          "名前",
-	UserEmail:         "メール",
-	UserSigningKey:    "署名キー (任意)",
-	UserGithubName:    "GitHub ユーザー名 (任意)",
-	UserNameEmpty:     "名前は必須です",
-	UserEmailEmpty:    "メールは必須です",
-	UserNameExample:   "例: 山田太郎",
-	UserEmailExample:  "例: taro@example.com",
-	UserSigningKeyEx:  "GPG キー ID (任意)",
-	UserGithubNameEx:  "SSH キー切替用 (任意)",
+	UserNoPreset:         "プリセットユーザーがありません",
+	UserAddNow:           "今すぐユーザーを追加しますか？",
+	UserSelectSwitch:     "切り替えるユーザーを選択",
+	UserManage:           "ユーザー管理",
+	UserAdd:              "➕ ユーザー追加",
+	UserEdit:             "✏️  ユーザー編集",
+	UserDelete:           "🗑️  ユーザー削除",
+	UserSelectEdit:       "編集するユーザーを選択",
+	UserSelectDelete:     "削除するユーザーを選択",
+	UserNoEdit:           "編集できるユーザーがありません",
+	UserNoDelete:         "削除できるユーザーがありません",
+	UserConfirmDelete:    "ユーザー %s <%s> を削除しますか？",
+	UserName:             "名前",
+	UserEmail:            "メール",
+	UserSigningKey:       "署名キー (任意)",
+	UserGithubName:       "GitHub ユーザー名 (任意)",
+	UserNameEmpty:        "名前は必須です",
+	UserEmailEmpty:       "メールは必須です",
+	UserNameExample:      "例: 山田太郎",
+	UserEmailExample:     "例: taro@example.com",
+	UserSigningKeyEx:     "GPG キー ID (任意)",
+	UserGithubNameEx:     "SSH キー切替用 (任意)",
+	SetRemoteTitle:       "リモート URL 設定 (origin)",
+	SetRemotePlaceholder: "例: git@github.com:user/repo.git",
+	ErrRemoteEmpty:       "リモート URL は必須です",
 
-	SuccessSwitched: "ユーザーを切り替えました: %s <%s>",
-	SuccessAdded:    "ユーザーを追加しました: %s <%s>",
-	SuccessUpdated:  "ユーザーを更新しました: %s <%s>",
-	SuccessDeleted:  "ユーザーを削除しました",
+	SuccessSwitched:  "ユーザーを切り替えました: %s <%s>",
+	SuccessAdded:     "ユーザーを追加しました: %s <%s>",
+	SuccessUpdated:   "ユーザーを更新しました: %s <%s>",
+	SuccessDeleted:   "ユーザーを削除しました",
+	SuccessSetRemote: "リモート URL を設定しました: %s",
 }
 
 // Init 初始化 i18n

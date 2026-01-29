@@ -47,6 +47,8 @@ func main() {
 			handleSwitchUser()
 		case ui.ActionManageUser:
 			handleManageUser()
+		case ui.ActionSetRemote:
+			handleSetRemote()
 		case ui.ActionChangeLang:
 			handleChangeLang()
 			// 切换语言后需要重新获取翻译
@@ -239,4 +241,58 @@ func handleDeleteUser() {
 	}
 
 	fmt.Println(ui.RenderSuccess(t.SuccessDeleted))
+}
+
+// handleSetRemote 处理设置远程地址
+func handleSetRemote() {
+	t := i18n.T()
+
+	// 获取当前远程地址作为默认值
+	currentURL, _ := git.GetRemoteURL()
+	if currentURL == "N/A" {
+		currentURL = ""
+	}
+
+	// 显示输入表单
+	newURL, err := ui.ShowSetRemoteURLForm(currentURL)
+	if err != nil {
+		return
+	}
+
+	// 设置远程地址
+	if err := git.SetRemoteURL(newURL); err != nil {
+		fmt.Println(ui.RenderError(t.ErrSetRemoteFailed + ": " + err.Error()))
+		return
+	}
+
+	fmt.Println(ui.RenderSuccess(fmt.Sprintf(t.SuccessSetRemote, newURL)))
+
+	// 检查当前 Git 用户配置
+	userName, err := git.GetUserName()
+	if err != nil || userName == "" {
+		return
+	}
+
+	// 加载预设用户列表，查找匹配的用户
+	users, err := config.LoadUsers()
+	if err != nil {
+		return
+	}
+
+	for _, user := range users {
+		if user.Name == userName {
+			// 如果找到了匹配的用户且配置了 GithubName
+			if user.GithubName != "" {
+				// 更新远程 URL (添加 github 用户名)
+				if err := git.UpdateRemoteURLWithGithubUser(user.GithubName); err == nil {
+					// 再次获取 URL 看是否发生了变化
+					updatedURL, _ := git.GetRemoteURL()
+					if updatedURL != newURL {
+						fmt.Println(ui.RenderSuccess(fmt.Sprintf(t.SuccessSetRemote, updatedURL)))
+					}
+				}
+			}
+			break
+		}
+	}
 }

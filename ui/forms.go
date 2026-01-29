@@ -18,6 +18,7 @@ type MainMenuAction string
 const (
 	ActionSwitchUser MainMenuAction = "switch"  // 切换用户
 	ActionManageUser MainMenuAction = "manage"  // 管理用户
+	ActionSetRemote  MainMenuAction = "remote"  // 设置远程地址
 	ActionChangeLang MainMenuAction = "lang"    // 切换语言
 	ActionRefresh    MainMenuAction = "refresh" // 刷新信息
 	ActionExit       MainMenuAction = "exit"    // 退出
@@ -51,6 +52,7 @@ func ShowMainMenu() (MainMenuAction, error) {
 				Options(
 					huh.NewOption(t.MenuSwitchUser, ActionSwitchUser),
 					huh.NewOption(t.MenuManageUser, ActionManageUser),
+					huh.NewOption(t.MenuSetRemote, ActionSetRemote),
 					huh.NewOption(t.MenuChangeLang, ActionChangeLang),
 					huh.NewOption(t.MenuRefresh, ActionRefresh),
 					huh.NewOption(t.MenuExit, ActionExit),
@@ -321,4 +323,31 @@ func ShowConfirmAddUser() (bool, error) {
 	}
 
 	return confirm, nil
+}
+
+// ShowSetRemoteURLForm 显示设置远程地址表单
+func ShowSetRemoteURLForm(currentURL string) (string, error) {
+	t := i18n.T()
+	var url string = currentURL
+
+	form := huh.NewForm(
+		huh.NewGroup(
+			huh.NewInput().
+				Title(t.SetRemoteTitle).
+				Placeholder(t.SetRemotePlaceholder).
+				Value(&url).
+				Validate(func(s string) error {
+					if s == "" {
+						return fmt.Errorf(t.ErrRemoteEmpty)
+					}
+					return nil
+				}),
+		),
+	).WithTheme(huh.ThemeCatppuccin())
+
+	if err := form.Run(); err != nil {
+		return "", err
+	}
+
+	return url, nil
 }
