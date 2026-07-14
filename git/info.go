@@ -51,8 +51,17 @@ func GetRemoteURL() (string, error) {
 }
 
 // SetRemoteURL 设置 origin 远程仓库的 URL
+// 如果 origin 已经存在，则修改远程仓库地址；如果不存在，则添加远程仓库地址
 func SetRemoteURL(url string) error {
-	_, err := runGitCommand("remote", "set-url", "origin", url)
+	// 检查 origin 是否已经存在
+	_, err := runGitCommand("remote", "get-url", "origin")
+	if err != nil {
+		// 如果获取失败，说明 origin 远程地址不存在，使用 add 添加
+		_, err = runGitCommand("remote", "add", "origin", url)
+		return err
+	}
+	// 如果 origin 已经存在，使用 set-url 更新
+	_, err = runGitCommand("remote", "set-url", "origin", url)
 	return err
 }
 
